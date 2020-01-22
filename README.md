@@ -1,0 +1,2 @@
+# 6D_DLS_Beating_Heart
+ This Plugin for FIJI is made to facilitate to browse through XYTCZL (T: frames C:Channels Z:Slices) datasets, using the virtual stack function. I took the ImageJ programming tutorial "https://www.ini.uzh.ch/~acardona/fiji-tutorial/" to obtain an interactive controller for these complex datasets. The dialogs are non-blocking and with this the roimanager can be used to perform some preliminary analysis. 
