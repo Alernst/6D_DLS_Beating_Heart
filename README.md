@@ -32,5 +32,6 @@ Alexander Ernst
 Institute of anatomy, University of Bern
 Programmed in Jython, tested on FIJI: IJ.getVersion: 2.0.0-rc-69/1.52p   and java.version: 1.8.0_172
 </p>
+<img src="Zebrafish_heart-picture.jpg" alt="Zebrafish-heart">
 </body>
 </html>
