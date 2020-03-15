@@ -31,6 +31,13 @@ Testdata can be provided on request, as the files are between 500 - 1500 gb big.
 Alexander Ernst
 Institute of anatomy, University of Bern
 Programmed in Jython, tested on FIJI: IJ.getVersion: 2.0.0-rc-69/1.52p   and java.version: 1.8.0_172
+<h1> Processor_6D  </h1>
+
+</p>
+<h1> Processor_6D  </h1>
+<p>
+1. Simply copy Converter_6D and Processor_6D to your "FIJI/Plugins/" directory and restart FIJI. 
+2. Start Processor_6D from inside FIJI in the Plugins tab.   
 </p>
 <img src="Zebrafish_heart-picture.jpg" alt="Zebrafish-heart">
 </body>
