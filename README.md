@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title> Processor_6D by Alexander Ernst</title>
+Processor_6D by Alexander Ernst
 </head>
 <body>
 
