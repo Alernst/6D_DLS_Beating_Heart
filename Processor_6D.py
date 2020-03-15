@@ -210,9 +210,9 @@ if psgd.wasOKed():
 	
 	
 	# properties need to be set to get a continous stack without dimensions
-	IJ.run(imp, "Properties...", "channels=1 slices="+ str(total) +" frames=1 unit=micron pixel_width=2.3140 pixel_height=2.3140 voxel_depth=2.5005 frame=[0.02 sec]")
+	IJ.run(imp, "Properties...", "channels=1 slices="+ str(total) +" frames=1")
 	if ChCheck > 1:
-		IJ.run(imp2, "Properties...", "channels=1 slices="+ str(total) +" frames=1 unit=micron pixel_width=2.3140 pixel_height=2.3140 voxel_depth=2.5005 frame=[0.02 sec]")
+		IJ.run(imp2, "Properties...", "channels=1 slices="+ str(total) +" frames=1")
 	
 	# The dialag has to be non-blocking to interact with the data, this dialog will access the controller classes and handle your images
 	# The dialag needs to be out of a function to get global variables
@@ -259,8 +259,8 @@ if psgd.wasOKed():
 	
 	#Reset the properties to re-open the data with the viewer, an error will appear as the metadata are not read correctly
 	if gd.wasCanceled(): 
-		IJ.run(imp, "Properties...", "channels="+ str(ch) +" slices="+ str(zplanes) +" frames="+ str(frames*loops) +" unit=micron pixel_width=2.3140 pixel_height=2.3140 voxel_depth=2.5005 frame=[0.02 sec]")
-		IJ.run(imp2, "Properties...", "channels="+ str(ch) +" slices="+ str(zplanes) +" frames="+ str(frames*loops) +" unit=micron pixel_width=2.3140 pixel_height=2.3140 voxel_depth=2.5005 frame=[0.02 sec]")
+		IJ.run(imp, "Properties...", "channels="+ str(ch) +" slices="+ str(zplanes) +" frames="+ str(frames*loops) +"")
+		IJ.run(imp2, "Properties...", "channels="+ str(ch) +" slices="+ str(zplanes) +" frames="+ str(frames*loops) +"")
 		imp.setTitle("green_" + title)
 		imp2.setTitle("red_" + title)
 	
@@ -296,8 +296,8 @@ if psgd.wasOKed():
 		else: 
 			imp.setTitle("green_" + title)
 			imp2.setTitle("red_" + title)
-			IJ.run(imp, "Properties...", "channels="+ str(ch) +" slices="+ str(zplanes) +" frames="+ str(frames*loops) +" unit=micron pixel_width=2.3140 pixel_height=2.3140 voxel_depth=2.5005 frame=[0.02 sec]")
+			IJ.run(imp, "Properties...", "channels="+ str(ch) +" slices="+ str(zplanes) +" frames="+ str(frames*loops) +"")
 		
 		if ChCheck > 1:
-			IJ.run(imp2, "Properties...", "channels="+ str(ch) +" slices="+ str(zplanes) +" frames="+ str(frames*loops) +" unit=micron pixel_width=2.3140 pixel_height=2.3140 voxel_depth=2.5005 frame=[0.02 sec]")
+			IJ.run(imp2, "Properties...", "channels="+ str(ch) +" slices="+ str(zplanes) +" frames="+ str(frames*loops) +"")
 	
