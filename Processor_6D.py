@@ -34,7 +34,7 @@ from Converter_6D import XYTCZL, MakeSubset
 import math
 import re
 
-# Control Channel dimension
+# Control Channel dimension by listening to adjustments, but this class just gives
 	  
 class ControllerC(AdjustmentListener):  
 	def __init__(self,imp, slider1):  	 
@@ -47,12 +47,21 @@ class ControllerC(AdjustmentListener):
 			slider4_feedback = gd.getSliders().get(3).getValue()
 			slider3_feedback = gd.getSliders().get(2).getValue()
 			slider2_feedback = gd.getSliders().get(1).getValue()
+			slider1_feedback = gd.getSliders().get(0).getValue()
 			imp=IJ.getImage()
+			# the equation chd takes the feedback (sfb) from slider 2-4, sfb2 is multiplied by the frames, sfb3 is just added, add sfb4 and multiply with the z-planes frames and channels
 			chd= slider2_feedback*frames + slider3_feedback + slider4_feedback*z_planes*frames*ch
-			imp.setPosition(1,chd,1)
-
-
-# Control Z-dimension
+			imp.setPosition(1,chd,1)
+			
+			# The following code could improve the channel switching, but was not yet tested
+			"""if slider1_feedback ==1:
+				imp.setPosition(1,chd,1)
+				imp.show()
+			else:
+				imp.setPosition(1,chd,1)
+				imp2.show()"""
+				
+# Control Z-dimension by listening to adjustments
 class ControllerZ(AdjustmentListener):  
 	def __init__(self,imp, slider2):  	 
 		self.imp = imp  
@@ -60,18 +69,21 @@ class ControllerZ(AdjustmentListener):
 	
 	def adjustmentValueChanged(self,event):  
 		if event.getValueIsAdjusting():  
-			return # there are more scrollbar adjustment events queued already  
+			return # works faster with the return as scrollbar adjustment events queue  
 		slider4_feedback = gd.getSliders().get(3).getValue()
 		slider3_feedback = gd.getSliders().get(2).getValue()
 		slider1_feedback = gd.getSliders().get(0).getValue()
 		imp=WM.getImage("green_" + title)
 		imp2=WM.getImage("red_" + title)
 		evt=event.getValue()
+		# if the channel is set to 1 use the first equation, else the second
 		if slider1_feedback==1:
 			imp.show()
+			# the equation sp takes the sfb from slider 3-4 and the value of the current event, sfb3 add 1, multiply the event value with ch times frames, add sfb4 and multiplied with the z-planes channels and frames 
 			sp=slider3_feedback + 1 + evt *(ch*frames) + slider4_feedback*(zplanes*ch* frames)
 			imp.setPosition(1,sp,1)
 		else:
+			# the equation sp takes the sfb from slider 3-4 and the value of the current event, sfb3 add 1, multiply the event value with ch times frames, add sfb4 and multiplied with the z-planes channels and frames, add frames ones 
 			sp=frames+ slider3_feedback + 1 + evt *(ch*frames) + slider4_feedback*(zplanes*ch* frames)
 			imp2.setPosition(1,sp,1)
 		
@@ -85,18 +97,23 @@ class ControllerT(AdjustmentListener):
 	
 	def adjustmentValueChanged(self,event):  
 		if event.getValueIsAdjusting():  
-			return # there are more scrollbar adjustment events queued already  
+			return # works faster with the return as scrollbar adjustment events queue  
 		slider1_feedback = gd.getSliders().get(0).getValue()
 		slider2_feedback = gd.getSliders().get(1).getValue()
 		slider4_feedback = gd.getSliders().get(3).getValue()
 		imp=WM.getImage("green_" + title)
 		imp2=WM.getImage("red_" + title)
 		evt=event.getValue()
+		# if the channel is set to 1 use the first equation, else the second
 		if slider1_feedback==1:
+			# the equation eventOutT takes the sfb from slider 2+4 and the value of the current event, add 1, multiply sfb2 by channels times frames, add sfb4 and multiply with the z-planes channels and frames, add the event value 
+	
 			eventOutT= 1 + slider2_feedback *(ch*frames) + slider4_feedback*(zplanes*ch* frames)+evt
 			imp.setPosition(1,eventOutT,1)	
 			
 		else:
+			# the equation eventOutT takes the sfb from slider 2+4 and the value of the current event, add 1, multiply sfb2 by channels times frames, add sfb4 and multiply with the z-planes channels and frames, add the event value, add frames ones 
+	
 			eventOutT=frames + 1 + slider2_feedback *(ch*frames) + slider4_feedback*(zplanes*ch* frames)+evt
 			imp2.setPosition(1,eventOutT,1)	
 		
@@ -110,25 +127,27 @@ class ControllerL(AdjustmentListener):
 	def adjustmentValueChanged(self,event):  
 		
 		if event.getValueIsAdjusting():  
-			return # there are more scrollbar adjustment events queued already  
+			return # works faster with the return as scrollbar adjustment events queue  
 		slider1_feedback = gd.getSliders().get(0).getValue()
 		slider2_feedback = gd.getSliders().get(1).getValue()
 		slider3_feedback = gd.getSliders().get(2).getValue()
 		imp=WM.getImage("green_" + title)
 		imp2=WM.getImage("red_" + title)
 		evt=event.getValue()
-		
+		# if the channel is set to 1 use the first equation, else the second
 		if slider1_feedback==1:
+			# the equation eventOutL takes the sfb from slider 2-3 and the value of the current event, add 1, add sfb3 multiply sfb2 by channels times frames, add the event value multiplied by zplanes,ch and frames
 			eventOutL= slider3_feedback + 1 + slider2_feedback *(ch*frames) + evt*(zplanes*ch* frames)
 			imp.setPosition(1,eventOutL,1)	
 		else:
+			# the equation eventOutL takes the sfb from slider 2-3 and the value of the current event, add 1, add sfb3 multiply sfb2 by channels times frames, add the event value multiplied by zplanes,ch and frames, add frames ones 
 			eventOutL=frames + slider3_feedback+ 1 + slider2_feedback *(ch*frames) + evt*(zplanes*ch* frames)
 			imp2.setPosition(1,eventOutL,1)	
 				
-# Define the pre-conditions for loading the data, default values represent my normal acquisition parameters only the loop has to be set, the rest is read from metadata
+# Define the pre-condition, whether the dataset is open already or not , if it is open already it is assumed that the dataset was opened before with the Processor_6D
 
 psgd = GenericDialog("Pre-Set")  
-psgd.addCheckbox("Images open?", False) # if your images  are already open as a virtual stack, you can avoid to load again
+psgd.addCheckbox("Images open (only works when the datasets were opened before with the Processor_6D)?", False) # if your images  are already open as a virtual stack, you can avoid to load again
 psgd.showDialog() 
 
 if psgd.wasOKed(): 
@@ -234,7 +253,7 @@ if psgd.wasOKed():
 	
 	# Set initial position for the two channels
 	if ChCheck > 1:
-		imp2.setPosition(1,51,1)
+		imp2.setPosition(1,frames+1,1)
 	 
 	
 	#Access controller classes
