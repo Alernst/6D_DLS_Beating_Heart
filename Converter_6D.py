@@ -1,8 +1,6 @@
-"""The Converter_6D is reuired for the output functions of Processor_6D.
+"""The Converter_6D
 
-The Converter_6D can also be used individually, but requires all the input arguments.
-
-Processor_6D
+6D_processor
 This Plugin for FIJI is made to facilitate browsing through XYTCZL .lif datasets (T: frames C:Channels Z:slices, L: loops) datasets, using the virtual stack function. 
 The ImageJ programming tutorial "https://www.ini.uzh.ch/~acardona/fiji-tutorial/" was taken as template to create an interactive controller for these 
 complex datasets. The dialogs are non-blocking and with this the roi-manager can be used to perform some preliminary analysis. 
@@ -44,7 +42,7 @@ def XYTCZL(directory_load,directory_save,chl,frames,z_planes,loops,total,pat,tit
 		impopen = [WM.getImage(id) for id in WM.getIDList()]  
 		for wind in impopen:  
 				imp2close=wind
-				if ""+ pat +"" in str(wind):
+				if ""+ pat +"_R" in str(wind):
 					imp2close.close()			
 
 	def hyperSC(num,istr):
@@ -100,7 +98,7 @@ def SubsetL(directory_load,directory_save,chl,frames,z_planes,loops,total,pat,ti
 
 	def hyperSC(num,istr):
 			imp2=impl[num]
-			imp2 = HyperStackConverter.toHyperStack(imp2, 2, 1, 50,"xytcz", "Color");
+			imp2 = HyperStackConverter.toHyperStack(imp2, chl, 1, z_planes,"xytcz", "Color");
 			if (num-2) < 10:
 				numstr= "000" + str(num-2)
 			elif (num-2) < 100 :
